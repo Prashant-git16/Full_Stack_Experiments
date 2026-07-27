@@ -9,7 +9,6 @@ function PostComposer() {
     LinkedIn: 380,
     Instagram: 220,
   };
-
   // const icons = {
   //   Twitter: "",
   //   Facebook: "",
@@ -92,25 +91,15 @@ function PostComposer() {
               checked={platforms.includes(platform)}
               onChange={() => handlePlatform(platform)}
             />
-
-            
-
             {platform}
-
           </label>
-
         ))}
-
       </div>
-
       <h3>Validation</h3>
-
       {platforms.length === 0 && (
         <p>Select a platform.</p>
       )}
-
       {platforms.map((platform) => (
-
         <p
           key={platform}
           className={
@@ -119,21 +108,15 @@ function PostComposer() {
               : "error"
           }
         >
-
           {post.length <= limits[platform]
             ? ` ${platform} : Valid`
             : ` ${platform} : Limit Exceeded (${limits[platform]})`}
-
         </p>
-
       ))}
-
       <div className="buttons">
-
         <button onClick={publishPost}>
            Publish
         </button>
-
         <button
           className="reset"
           onClick={() => {
@@ -143,11 +126,8 @@ function PostComposer() {
         >
           Reset
         </button>
-
       </div>
-
     </div>
   );
 }
-
 export default PostComposer;
