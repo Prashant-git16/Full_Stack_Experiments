@@ -12,7 +12,6 @@ const PostChecker = () => {
   const [post, setPost] = useState(() => {
     return localStorage.getItem("post") || "";
   });
-
   const [platforms, setPlatforms] = useState(() => {
     const savedPlatforms = localStorage.getItem("platforms");
     return savedPlatforms ? JSON.parse(savedPlatforms) : [];
@@ -39,7 +38,6 @@ const PostChecker = () => {
       alert("Please select at least one platform.");
       return;
     }
-
     const invalid = platforms.find((p) => post.length > limits[p]);
 
     if (invalid) {
@@ -55,7 +53,6 @@ const PostChecker = () => {
   };
 
   const progress = Math.min((post.length / 3000) * 100, 100);
-
   return (
     <div className="container">
       <h1>Social Media Post Composer</h1>
