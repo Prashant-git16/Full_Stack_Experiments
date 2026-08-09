@@ -1,23 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PostComposer.css";
 
-function PostComposer() {
-
+const PostChecker = () => {
   const limits = {
     Twitter: 280,
     Facebook: 632,
     LinkedIn: 380,
     Instagram: 220,
   };
-  // const icons = {
-  //   Twitter: "",
-  //   Facebook: "",
-  //   LinkedIn: "",
-  //   Instagram: "",
-  // };
 
-  const [post, setPost] = useState("");
-  const [platforms, setPlatforms] = useState([]);
+  const [post, setPost] = useState(() => {
+    return localStorage.getItem("post") || "";
+  });
+
+  const [platforms, setPlatforms] = useState(() => {
+    const savedPlatforms = localStorage.getItem("platforms");
+    return savedPlatforms ? JSON.parse(savedPlatforms) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("post", post);
+  }, [post]);
+
+  useEffect(() => {
+    localStorage.setItem("platforms", JSON.stringify(platforms));
+  }, [platforms]);
 
   const handlePlatform = (platform) => {
     if (platforms.includes(platform)) {
@@ -36,22 +43,23 @@ function PostComposer() {
     const invalid = platforms.find((p) => post.length > limits[p]);
 
     if (invalid) {
-      alert(` Cannot publish.\n${invalid} character limit exceeded.`);
+      alert(`Cannot publish.\n${invalid} character limit exceeded.`);
       return;
     }
 
-    alert(" Post Published Successfully!");
-
+    alert("Post Published Successfully!");
     setPost("");
     setPlatforms([]);
+    localStorage.removeItem("post");
+    localStorage.removeItem("platforms");
   };
 
   const progress = Math.min((post.length / 3000) * 100, 100);
 
   return (
     <div className="container">
+      <h1>Social Media Post Composer</h1>
 
-      <h1> Social Media Post Composer</h1>
       <p className="subtitle">
         Compose Once • Publish Everywhere
       </p>
@@ -76,16 +84,13 @@ function PostComposer() {
       <h3>Select Platforms</h3>
 
       <div className="platforms">
-
         {Object.keys(limits).map((platform) => (
-
           <label
             key={platform}
             className={`platform-card ${
               platforms.includes(platform) ? "selected" : ""
             }`}
           >
-
             <input
               type="checkbox"
               checked={platforms.includes(platform)}
@@ -95,10 +100,11 @@ function PostComposer() {
           </label>
         ))}
       </div>
+
       <h3>Validation</h3>
-      {platforms.length === 0 && (
-        <p>Select a platform.</p>
-      )}
+
+      {platforms.length === 0 && <p>Select a platform.</p>}
+
       {platforms.map((platform) => (
         <p
           key={platform}
@@ -109,19 +115,23 @@ function PostComposer() {
           }
         >
           {post.length <= limits[platform]
-            ? ` ${platform} : Valid`
-            : ` ${platform} : Limit Exceeded (${limits[platform]})`}
+            ? `${platform} : Valid`
+            : `${platform} : Limit Exceeded (${limits[platform]})`}
         </p>
       ))}
+
       <div className="buttons">
         <button onClick={publishPost}>
-           Publish
+          Publish
         </button>
+
         <button
           className="reset"
           onClick={() => {
             setPost("");
             setPlatforms([]);
+            localStorage.removeItem("post");
+            localStorage.removeItem("platforms");
           }}
         >
           Reset
@@ -130,4 +140,5 @@ function PostComposer() {
     </div>
   );
 }
-export default PostComposer;
+
+export default PostChecker;

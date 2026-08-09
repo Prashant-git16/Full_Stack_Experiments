@@ -4,18 +4,12 @@ body{
 
   font-family:Arial, Helvetica, sans-serif;
 
-  background:linear-gradient(135deg,#74ebd5,#9face6);
-
+  background:linear-gradient(135deg,#74ebd5,#8897da);
 }
-
 .App{
-
   min-height:100vh;
-
   display:flex;
-
   justify-content:center;
-
   align-items:center;
 
 }
