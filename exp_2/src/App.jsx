@@ -7,7 +7,6 @@ function App() {
   return (
     <>
       <Navbar />
-
       <div className="container">
         <PostForm />
         <PostList />
@@ -15,5 +14,4 @@ function App() {
     </>
   );
 }
-
 export default App;
